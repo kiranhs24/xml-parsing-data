@@ -1,0 +1,18 @@
+import xml.etree.ElementTree as ET
+from pymongo import MongoClient
+
+# Create connection to MongoDB
+client = MongoClient('localhost', 27017)
+db = client['xml_parsing']
+collection = db['users_data']
+
+
+# Build a basic dictionary
+#d = {'website': 'www.carrefax.com', 'author': 'Daniel Hoadley', 'colour': 'purple'}
+# Insert the dictionary into Mongo
+
+for event, elem in ET.iterparse("Users.xml", events=("start","end")):
+    if elem.tag == "row" and event == "start":
+        d = elem.attrib
+        collection.insert_one(d)
+        elem.clear()

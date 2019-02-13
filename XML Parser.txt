@@ -1,0 +1,16 @@
+import xml.etree.ElementTree as ET
+tree = ET.parse('Test.xml')
+root = tree.getroot()
+
+f = open("Users.txt", "wt")
+
+"""
+print(root.tag)
+print(root.attrib)
+"""
+
+for row in root.iter('row'):
+    rows = row.attrib
+    for key in rows.keys():
+        f.write(key + " ----> " + rows[key] + "\n")
+    f.write("\n" + "\n")
